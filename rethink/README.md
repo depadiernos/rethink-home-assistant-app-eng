@@ -47,6 +47,11 @@ common.lgthinq.com  A  <IP Home Assistant>  TTL 300
 устройство к Wi-Fi. Запись `common.lgthinq.com` удалите после успешной
 регистрации; `rethink.lan` оставьте постоянно.
 
+Для регистрации с телефона или планшета используйте официальный
+[Rethink Setup for Android v1.1.1](https://github.com/akinin/rethink-home-assistant-app/blob/main/apk/README.md).
+Проверенная APK-сборка, SHA-256 и инструкция хранятся вместе с репозиторием
+приложения.
+
 ## Перед запуском
 
 1. Создайте отдельного пользователя MQTT.
