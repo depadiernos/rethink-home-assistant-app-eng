@@ -9,8 +9,8 @@ LG ThinQ и переводит их локальный протокол в MQTT 
 ```text
                          ┌─────────────────────────────┐
 Устройство LG ThinQ2 ───>│ LG ThinQ Local              │
-  HTTPS/TCP 443           │ Rethink Cloud               │───> MQTT-брокер
-  MQTT TLS/TCP 8883       │ CA, ключи и state в /data   │     TCP 1883
+  HTTPS/TCP 443          │ Rethink Cloud               │───> MQTT-брокер
+  MQTT TLS/TCP 8883      │ CA, ключи и state в /data   │     TCP 1883
                          └─────────────────────────────┘
                                       │
                                       └── Home Assistant Ingress
