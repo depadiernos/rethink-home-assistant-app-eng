@@ -1,5 +1,7 @@
 # LG ThinQ Local: установка и эксплуатация
 
+**Русский** · [English](DOCS.en.md)
+
 Приложение упаковывает [Rethink](https://github.com/anszom/rethink) для Home
 Assistant OS. Rethink подменяет облачную точку подключения совместимых устройств
 LG ThinQ и переводит их локальный протокол в MQTT Discovery Home Assistant.

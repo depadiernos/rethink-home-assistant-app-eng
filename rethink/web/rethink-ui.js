@@ -3,6 +3,12 @@
 
     const LANGUAGE_KEY = 'rethink.ui.language'
     const THEME_KEY = 'rethink.ui.theme'
+    const DEVICE_NAME_KEY = 'rethink.device.name.'
+
+    const knownDeviceNames = {
+        '28fb166b-4bdf-173b-9be4-4cbce9d7259d': 'Кондиционер Akinin',
+        'a047aaae-38c1-1466-8f46-288761162cb8': 'Кондиционер Borisov',
+    }
 
     const enToRu = new Map(
         Object.entries({
@@ -188,6 +194,16 @@
         const nav = document.querySelector('nav .nav-wrapper')
         if (!nav || nav.querySelector('.rethink-ui-controls')) return
 
+        const materialIcon = nav.querySelector('.brand-logo > .material-icons')
+        if (materialIcon) {
+            const logo = document.createElement('img')
+            logo.className = 'rethink-brand-logo'
+            logo.src = 'lg-thinq-local.png'
+            logo.alt = ''
+            logo.setAttribute('aria-hidden', 'true')
+            materialIcon.replaceWith(logo)
+        }
+
         controls = document.createElement('div')
         controls.className = 'rethink-ui-controls'
         controls.innerHTML = `
@@ -289,7 +305,117 @@
 
         toolbar.append(search, refresh, setup)
         table.before(summary, toolbar)
+        enhanceDeviceNames()
         updateDeviceSummary()
+    }
+
+    function enhanceConnectivity() {
+        const rethinkStatus = document.getElementById('status_rethink')
+        const mqttStatus = document.getElementById('status_mqtt')
+        const container = rethinkStatus?.closest('.container')
+        if (!container || !mqttStatus || container.querySelector('.rethink-connectivity')) return
+
+        const header = container.querySelector('.header')
+        const list = document.createElement('div')
+        list.className = 'rethink-connectivity'
+
+        const connectionRow = (status, sourceRu, sourceEn, target) => {
+            const row = document.createElement('div')
+            row.className = 'rethink-connectivity-row'
+            const sourceLabel = document.createElement('span')
+            sourceLabel.className = 'rethink-connectivity-endpoint'
+            localised(sourceLabel, sourceRu, sourceEn)
+            const arrow = document.createElement('span')
+            arrow.className = 'material-icons rethink-connectivity-arrow'
+            arrow.setAttribute('aria-hidden', 'true')
+            arrow.textContent = 'sync_alt'
+            const targetLabel = document.createElement('span')
+            targetLabel.className = 'rethink-connectivity-endpoint'
+            targetLabel.textContent = target
+            row.append(status, sourceLabel, arrow, targetLabel)
+            return row
+        }
+
+        list.append(
+            connectionRow(rethinkStatus, 'Браузер', 'Browser', 'Rethink'),
+            connectionRow(mqttStatus, 'Rethink', 'Rethink', 'MQTT'),
+        )
+        container.replaceChildren(header, list)
+    }
+
+    function deviceName(id) {
+        return (
+            readSetting(`${DEVICE_NAME_KEY}${id}`) ||
+            knownDeviceNames[id] ||
+            `${language === 'ru' ? 'Устройство' : 'Device'} ${id.slice(0, 8)}`
+        )
+    }
+
+    function saveDeviceName(id, value) {
+        const name =
+            normalise(value) ||
+            knownDeviceNames[id] ||
+            `${language === 'ru' ? 'Устройство' : 'Device'} ${id.slice(0, 8)}`
+        writeSetting(`${DEVICE_NAME_KEY}${id}`, name)
+        return name
+    }
+
+    function createDeviceNameCell(id) {
+        const cell = document.createElement('td')
+        cell.className = 'rethink-device-name-cell'
+        cell.dataset.deviceId = id
+
+        const button = document.createElement('button')
+        button.type = 'button'
+        button.className = 'rethink-device-name'
+        button.title = language === 'ru' ? 'Переименовать устройство' : 'Rename device'
+        button.innerHTML = '<span></span><span class="material-icons" aria-hidden="true">edit</span>'
+        button.querySelector('span').textContent = deviceName(id)
+
+        button.addEventListener('click', () => {
+            const input = document.createElement('input')
+            input.type = 'text'
+            input.className = 'rethink-device-name-input'
+            input.value = button.querySelector('span').textContent
+            input.maxLength = 80
+
+            const finish = (save) => {
+                if (!input.isConnected) return
+                if (save) button.querySelector('span').textContent = saveDeviceName(id, input.value)
+                input.replaceWith(button)
+                filterDevices()
+            }
+
+            input.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') finish(true)
+                if (event.key === 'Escape') finish(false)
+            })
+            input.addEventListener('blur', () => finish(true), { once: true })
+            button.replaceWith(input)
+            input.focus()
+            input.select()
+        })
+
+        cell.append(button)
+        return cell
+    }
+
+    function enhanceDeviceNames() {
+        const tableBody = document.getElementById('devices_body')
+        const headerRow = tableBody?.closest('table')?.querySelector('thead tr')
+        if (!tableBody || !headerRow) return
+
+        if (!headerRow.querySelector('.rethink-device-name-heading')) {
+            const heading = localised(document.createElement('th'), 'Название', 'Name')
+            heading.className = 'rethink-device-name-heading'
+            headerRow.prepend(heading)
+        }
+
+        tableBody.querySelectorAll(':scope > tr').forEach((row) => {
+            if (row.querySelector('.rethink-device-name-cell')) return
+            const id = normalise(row.firstElementChild?.textContent || '')
+            if (id) row.prepend(createDeviceNameCell(id))
+        })
     }
 
     function filterDevices() {
@@ -400,8 +526,10 @@
     function updateEnhancements() {
         window.cancelAnimationFrame(enhancementFrame)
         enhancementFrame = window.requestAnimationFrame(() => {
+            enhanceConnectivity()
             enhancePanel()
             enhanceMonitor()
+            enhanceDeviceNames()
             updateDeviceSummary()
             updateMessageSummary()
             refreshEnhancementLabels()
@@ -412,6 +540,7 @@
         applyTheme(theme, false)
         createControls()
         applyLanguage(language, false)
+        enhanceConnectivity()
         enhancePanel()
         enhanceMonitor()
 

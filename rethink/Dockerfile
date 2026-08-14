@@ -3,6 +3,7 @@ FROM ghcr.io/anszom/rethink@sha256:8c6b2e15fc1af9879188e982742342dd7bb34054bb733
 COPY web/vendor /app/dist/html/vendor
 COPY web/rethink-ui.css /app/dist/html/rethink-ui.css
 COPY web/rethink-ui.js /app/dist/html/rethink-ui.js
+COPY logo.png /app/dist/html/lg-thinq-local.png
 
 RUN set -eu; \
     for page in /app/dist/html/index.html /app/dist/html/monitor.html; do \

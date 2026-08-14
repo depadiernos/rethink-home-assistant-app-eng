@@ -65,6 +65,14 @@ nav .brand-logo {
     white-space: nowrap;
 }
 
+.rethink-brand-logo {
+    border-radius: 0.55rem;
+    flex: 0 0 auto;
+    height: 2.15rem;
+    object-fit: contain;
+    width: 2.15rem;
+}
+
 .rethink-ui-controls {
     align-items: center;
     display: flex;
@@ -228,6 +236,99 @@ input[type='text']:not(.browser-default):focus:not([readonly]) {
     color: var(--rt-text);
 }
 
+.rethink-connectivity {
+    display: grid;
+    gap: 0.35rem;
+    width: max-content;
+}
+
+.rethink-connectivity-row {
+    align-items: center;
+    display: grid;
+    grid-template-columns: 1.35rem 7.25rem 1.65rem 7.25rem;
+    min-height: 1.8rem;
+}
+
+.rethink-connectivity-row .status_field {
+    align-items: center;
+    display: inline-flex;
+    height: 1.5rem;
+    justify-content: flex-start;
+}
+
+.rethink-connectivity-row .status_field .material-icons {
+    font-size: 1.25rem;
+}
+
+.rethink-connectivity-endpoint {
+    color: var(--rt-text);
+    white-space: nowrap;
+}
+
+.rethink-connectivity-arrow {
+    color: var(--rt-muted);
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.rethink-device-name-heading,
+.rethink-device-name-cell {
+    min-width: 14rem;
+}
+
+.rethink-device-name {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    border-radius: 0.4rem;
+    color: var(--rt-text);
+    cursor: pointer;
+    display: inline-flex;
+    font: inherit;
+    font-weight: 600;
+    gap: 0.35rem;
+    max-width: 18rem;
+    padding: 0.35rem 0.4rem;
+    text-align: left;
+}
+
+.rethink-device-name:hover,
+.rethink-device-name:focus-visible {
+    background: var(--rt-surface-alt);
+    outline: none;
+}
+
+.rethink-device-name > span:first-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.rethink-device-name .material-icons {
+    color: var(--rt-muted);
+    flex: 0 0 auto;
+    font-size: 1rem;
+}
+
+.rethink-device-name-input {
+    background: var(--rt-surface-alt) !important;
+    border: 1px solid var(--rt-primary) !important;
+    border-radius: 0.4rem !important;
+    box-sizing: border-box !important;
+    color: var(--rt-text) !important;
+    height: 2.35rem !important;
+    margin: 0 !important;
+    max-width: 18rem;
+    min-width: 13rem;
+    padding: 0 0.55rem !important;
+}
+
+#devices_body > tr > td:nth-child(2) {
+    color: var(--rt-muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.82rem;
+}
+
 .rethink-summary {
     display: grid;
     gap: 0.7rem;
@@ -352,6 +453,10 @@ input[type='text']:not(.browser-default):focus:not([readonly]) {
 
     .rethink-summary {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .rethink-connectivity-row {
+        grid-template-columns: 1.35rem 6.5rem 1.5rem 6.5rem;
     }
 
     .rethink-toolbar .rethink-action {
