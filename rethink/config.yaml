@@ -17,7 +17,7 @@ options:
     hostname: rethink.lan
     management_port: 44401
   mqtt:
-    host: <Home Assistant IP>
+    host: "<Home Assistant IP>"
     port: 1883
     username: lg_thinq_local
     password: ""
