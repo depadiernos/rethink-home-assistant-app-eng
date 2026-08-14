@@ -113,11 +113,31 @@ nav .brand-logo {
     outline: none;
 }
 
+.rethink-language-switch .rethink-ui-button.active {
+    background: var(--rt-primary);
+    color: #fff;
+}
+
+.rethink-language-switch .rethink-ui-button:not(.active):hover,
+.rethink-language-switch .rethink-ui-button:not(.active):focus-visible {
+    background: rgb(148 163 184 / 35%);
+}
+
 .rethink-theme-toggle {
-    background: rgb(255 255 255 / 13%);
-    border: 1px solid rgb(255 255 255 / 22%);
-    border-radius: 50%;
+    aspect-ratio: 1;
+    background: var(--rt-primary);
+    border: 1px solid var(--rt-primary);
+    border-radius: 999px;
+    height: 2.45rem;
+    min-width: 2.45rem;
     padding: 0;
+    width: 2.45rem;
+}
+
+.rethink-theme-toggle:hover,
+.rethink-theme-toggle:focus-visible {
+    background: var(--rt-primary-hover);
+    border-color: var(--rt-primary-hover);
 }
 
 .rethink-theme-toggle .material-icons {

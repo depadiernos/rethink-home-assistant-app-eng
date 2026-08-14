@@ -1,5 +1,5 @@
 name: LG ThinQ Local
-version: "0.2.1"
+version: "0.2.2"
 slug: lg_thinq_local
 description: Полностью локальное управление устройствами LG ThinQ через Rethink
 url: https://github.com/akinin/rethink-home-assistant-app
