@@ -1,0 +1,30 @@
+configuration:
+  server:
+    name: Сервер Rethink
+    description: Локальное имя сервера и порт его веб-интерфейса.
+    fields:
+      hostname:
+        name: Локальное имя
+        description: DNS-имя должно указывать на IP-адрес Home Assistant.
+      management_port:
+        name: Порт веб-интерфейса
+  mqtt:
+    name: Подключение к MQTT
+    description: Учётные данные отдельного пользователя брокера Home Assistant.
+    fields:
+      host:
+        name: Адрес брокера
+      port:
+        name: Порт брокера
+      username:
+        name: Пользователь
+      password:
+        name: Пароль
+  advanced:
+    name: Дополнительно
+    description: Эти параметры обычно не требуется изменять.
+    fields:
+      discovery_prefix:
+        name: Префикс MQTT Discovery
+      rethink_prefix:
+        name: Префикс топиков Rethink

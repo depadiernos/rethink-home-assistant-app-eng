@@ -1,0 +1,38 @@
+name: LG ThinQ Local
+version: "0.1.4"
+slug: lg_thinq_local
+description: Полностью локальное управление устройствами LG ThinQ через Rethink
+url: https://github.com/akinin/rethink-home-assistant-app
+arch:
+  - amd64
+init: false
+startup: services
+host_network: true
+ingress: true
+ingress_port: 44401
+panel_icon: mdi:air-conditioner
+panel_title: LG ThinQ Local
+options:
+  server:
+    hostname: rethink.lan
+    management_port: 44401
+  mqtt:
+    host: <Home Assistant IP>
+    port: 1883
+    username: lg_thinq_local
+    password: ""
+  advanced:
+    discovery_prefix: homeassistant
+    rethink_prefix: rethink
+schema:
+  server:
+    hostname: str
+    management_port: port
+  mqtt:
+    host: str
+    port: port
+    username: str
+    password: password
+  advanced:
+    discovery_prefix: str
+    rethink_prefix: str

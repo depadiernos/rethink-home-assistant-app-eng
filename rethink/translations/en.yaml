@@ -1,0 +1,30 @@
+configuration:
+  server:
+    name: Rethink server
+    description: Local server hostname and management interface port.
+    fields:
+      hostname:
+        name: Local hostname
+        description: This DNS name must resolve to the Home Assistant IP address.
+      management_port:
+        name: Management port
+  mqtt:
+    name: MQTT connection
+    description: Credentials of a dedicated Home Assistant MQTT broker user.
+    fields:
+      host:
+        name: Broker address
+      port:
+        name: Broker port
+      username:
+        name: Username
+      password:
+        name: Password
+  advanced:
+    name: Advanced
+    description: These values normally do not need to be changed.
+    fields:
+      discovery_prefix:
+        name: MQTT Discovery prefix
+      rethink_prefix:
+        name: Rethink topic prefix
