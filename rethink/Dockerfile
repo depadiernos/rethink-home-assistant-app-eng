@@ -1,6 +1,9 @@
 # Upstream b6b3c037 (includes the region-correct CA fix 980b42e).
 FROM ghcr.io/anszom/rethink@sha256:1938f4a2180a6d72f9c8f72e111d0ddcd278dc49cf6c220fe44d2d3719692562
 
+COPY patch-filter-date.mjs /usr/local/bin/patch-filter-date.mjs
+RUN node /usr/local/bin/patch-filter-date.mjs /app/dist/cloud/devices/RAC_056905_WW.js
+
 COPY web/vendor /app/dist/html/vendor
 COPY web/rethink-ui.css /app/dist/html/rethink-ui.css
 COPY web/rethink-ui.js /app/dist/html/rethink-ui.js
