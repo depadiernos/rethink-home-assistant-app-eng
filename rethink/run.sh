@@ -67,4 +67,7 @@ fs.writeFileSync(configPath, `${JSON.stringify(config, null, 2)}\n`, { mode: 0o6
 NODE
 
 cd /app
+if ! node /usr/local/bin/migrate-bridge-ca.mjs "$DATA_DIR/state"; then
+  echo 'Bridge CA migration could not run; starting local server without changing TLS verification' >&2
+fi
 exec node dist/rethink-cloud.js "$CONFIG_FILE"

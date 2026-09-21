@@ -1,4 +1,5 @@
-FROM ghcr.io/anszom/rethink@sha256:8c6b2e15fc1af9879188e982742342dd7bb34054bb733e6410bc67285fa76d8c
+# Upstream b6b3c037 (includes the region-correct CA fix 980b42e).
+FROM ghcr.io/anszom/rethink@sha256:1938f4a2180a6d72f9c8f72e111d0ddcd278dc49cf6c220fe44d2d3719692562
 
 COPY web/vendor /app/dist/html/vendor
 COPY web/rethink-ui.css /app/dist/html/rethink-ui.css
@@ -18,6 +19,7 @@ RUN set -eu; \
     done
 
 COPY run.sh /usr/local/bin/run-rethink
+COPY migrate-bridge-ca.mjs /usr/local/bin/migrate-bridge-ca.mjs
 RUN chmod 0755 /usr/local/bin/run-rethink
 
 CMD ["/usr/local/bin/run-rethink"]

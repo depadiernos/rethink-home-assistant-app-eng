@@ -405,16 +405,31 @@
         const headerRow = tableBody?.closest('table')?.querySelector('thead tr')
         if (!tableBody || !headerRow) return
 
-        if (!headerRow.querySelector('.rethink-device-name-heading')) {
+        const upstreamNameHeading = headerRow.querySelector('th.dev-name')
+        if (upstreamNameHeading && !upstreamNameHeading.classList.contains('rethink-device-name-heading')) {
+            upstreamNameHeading.classList.add('rethink-device-name-heading')
+            localised(upstreamNameHeading, 'Название', 'Name')
+        } else if (!upstreamNameHeading && !headerRow.querySelector('.rethink-device-name-heading')) {
             const heading = localised(document.createElement('th'), 'Название', 'Name')
             heading.className = 'rethink-device-name-heading'
             headerRow.prepend(heading)
         }
 
         tableBody.querySelectorAll(':scope > tr').forEach((row) => {
-            if (row.querySelector('.rethink-device-name-cell')) return
-            const id = normalise(row.firstElementChild?.textContent || '')
-            if (id) row.prepend(createDeviceNameCell(id))
+            const upstreamNameCell = row.querySelector('td.dev-name')
+            if (upstreamNameCell) {
+                if (upstreamNameCell.classList.contains('rethink-device-name-cell')) return
+                const id = normalise(row.querySelector('td.dev-id')?.textContent || '')
+                if (!id) return
+                const nameCell = createDeviceNameCell(id)
+                upstreamNameCell.classList.add('rethink-device-name-cell')
+                upstreamNameCell.dataset.deviceId = id
+                upstreamNameCell.title = deviceName(id)
+                upstreamNameCell.replaceChildren(...nameCell.childNodes)
+            } else if (!row.querySelector('.rethink-device-name-cell')) {
+                const id = normalise(row.firstElementChild?.textContent || '')
+                if (id) row.prepend(createDeviceNameCell(id))
+            }
         })
     }
 

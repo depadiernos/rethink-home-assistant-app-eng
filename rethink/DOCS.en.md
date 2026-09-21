@@ -165,6 +165,16 @@ MQTT and wait for appliances to reconnect automatically; they do not need to be
 turned on. The upstream Rethink image is pinned by digest and changes only with
 an explicit app release.
 
+Since 0.2.3, startup checks the saved CA for the optional cloud bridge over
+verified HTTPS against LG's region-specific API server. If it changes, the
+original `state/device_*.json` is saved alongside it with a
+`.before-region-ca.<time>-<random ID>.bak` suffix before an atomic replacement.
+Client keys, the local CA, and MQTT topics are preserved. Requests are limited
+to LG's trusted domain and TLS verification remains enabled. If the API is
+unavailable or returns invalid data, state is left untouched and the local
+server still starts. Cloud bridge remains enabled and still needs an upstream
+connection to keep the official LG app working.
+
 Diagnostics:
 
 ```bash
