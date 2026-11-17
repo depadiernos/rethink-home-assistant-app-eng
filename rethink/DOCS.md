@@ -1,7 +1,5 @@
 # LG ThinQ Local: installation and operation
 
-[Русский](DOCS.md) · **English**
-
 This app packages [Rethink](https://github.com/anszom/rethink) for Home
 Assistant OS. Rethink replaces the cloud endpoint used by compatible LG ThinQ
 appliances and exposes their local protocol through Home Assistant MQTT
