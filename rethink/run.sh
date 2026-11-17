@@ -37,16 +37,11 @@ const config = {
   ca_key_file: '/data/ca.key',
   ca_cert_file: '/data/ca.cert',
   https_port: 443,
-  mqtts_port: 8883,
+  mqtts_port: 9883,
   mqtt_port: {
     address: '127.0.0.1',
     bind: 11884,
     advertise: 1884,
-  },
-  thinq1_http_port: {
-    address: '127.0.0.1',
-    bind: 46043,
-    advertise: 46043,
   },
   thinq1_https_port: {
     address: '127.0.0.1',
