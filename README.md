@@ -1,81 +1,77 @@
 # LG ThinQ Local for Home Assistant
 
-**Русский** · [English](README.en.md)
+[Русский](README.md) · **English**
 
-Репозиторий приложения Home Assistant OS, которое запускает
-[Rethink](https://github.com/anszom/rethink) для полностью локального управления
-совместимыми устройствами LG ThinQ.
+Home Assistant OS app repository that runs
+[Rethink](https://github.com/anszom/rethink) for fully local control of
+compatible LG ThinQ appliances.
 
-## Возможности
+## Features
 
-- управление и получение состояния без облака LG;
-- MQTT Discovery для Home Assistant;
-- безопасный интерфейс через Home Assistant Ingress;
-- русская и английская локализация, светлая и тёмная темы;
-- автономные веб-ресурсы без Google Fonts и CDN;
-- поиск устройств, сводные показатели и экспорт журнала мониторинга;
-- постоянное хранение локального CA и состояний устройств;
-- обслуживание нескольких устройств одним экземпляром;
-- фиксированный digest базового образа Rethink.
+- local control and state reporting without the LG cloud;
+- Home Assistant MQTT Discovery;
+- protected management UI through Home Assistant Ingress;
+- Russian and English UI, light and dark themes;
+- bundled web resources with no Google Fonts or CDN dependency;
+- device search, editable friendly names, status summaries and monitor-log export;
+- persistent local CA, keys and device state;
+- multiple compatible appliances handled by one app instance;
+- Rethink base image pinned by digest.
 
-## Быстрая установка
+## Quick installation
 
-Добавьте URL как пользовательский репозиторий в магазине приложений Home
-Assistant:
+Add this URL as a custom repository in the Home Assistant app store:
 
 ```text
 https://github.com/akinin/rethink-home-assistant-app
 ```
 
-Затем установите **LG ThinQ Local**, укажите MQTT-подключение и создайте DNS:
+Install **LG ThinQ Local**, configure MQTT and add this permanent DNS record:
 
 ```text
-rethink.lan  A  <IP Home Assistant>  TTL 300
+rethink.lan  A  <Home Assistant IP>  TTL 300
 ```
 
-Подробное руководство находится в
-[`rethink/DOCS.md`](rethink/DOCS.md). Там описаны первичная регистрация,
-подключение второго кондиционера, временная запись `common.lgthinq.com`, смысл
-TTL, резервное копирование, обновление и откат.
+Read the [complete English guide](rethink/DOCS.en.md) for first-time
+provisioning, adding another air conditioner, the temporary
+`common.lgthinq.com` record, TTL, backups, updates and rollback.
 
-## Android-компаньон
+## Android companion
 
-В каталоге [`apk/`](apk/) сохранена проверенная неизменённая официальная сборка
+The [`apk/`](apk/) directory contains an unchanged verified copy of the official
 [Rethink Setup for Android v1.1.1](https://github.com/anszom/rethink-setup-android/releases/tag/v1.1.1).
-Она проверяет DNS-перенаправление и выполняет первичную регистрацию устройства
-без ноутбука. В каталоге указаны SHA-256, источник, требования и пошаговая
-инструкция.
+Its source, SHA-256, requirements and installation procedure are documented in
+the [English APK guide](apk/README.en.md).
 
-## Структура
+## Structure
 
 ```text
 rethink/
-├── config.yaml       # манифест и параметры Home Assistant App
-├── Dockerfile        # закреплённый образ Rethink
-├── run.sh            # безопасная генерация конфигурации и запуск
-├── README.md         # карточка в магазине приложений
-├── DOCS.md           # полное руководство
+├── config.yaml       # Home Assistant App manifest and parameters
+├── Dockerfile        # Pinned Rethink image
+├── run.sh            # Secure configuration generation and startup
+├── README.md         # App Store listing
+├── DOCS.md           # Full documentation
 ├── CHANGELOG.md
-└── translations/     # русский и английский интерфейс параметров
+└── translations/     # Russian and English interface translations
 apk/
 ├── rethink-setup-android-v1.1.1.apk
 ├── SHA256SUMS
-└── README.md          # установка, проверка и DNS/TTL
+└── README.md          # Installation, verification, and DNS/TTL details
 ```
 
-## Безопасность
+## Security
 
-- management-интерфейс доступен только через Ingress;
-- пароль MQTT не входит в репозиторий;
-- порты ThinQ1 и внутренний MQTT ограничены loopback-интерфейсом;
-- снаружи приложению нужны только `443/tcp` и `8883/tcp` из локального/IoT
-  сегмента.
+- the management UI is available only through Home Assistant Ingress;
+- MQTT credentials are never stored in this repository;
+- the ThinQ1 and internal MQTT listeners are restricted to loopback;
+- only TCP 443 and 8883 need to be reachable from the local/IoT networks.
 
-Перед публикацией проблем удаляйте из журналов IP-адреса, UUID устройств,
-пароли MQTT и содержимое `/data`.
+Remove IP addresses, device UUIDs, MQTT credentials and `/data` contents before
+publishing logs or diagnostics.
 
-## Происхождение и лицензия
+## Origin and license
 
-Серверная часть предоставляется проектом
-[anszom/rethink](https://github.com/anszom/rethink) под GPL-2.0. Этот репозиторий
-содержит упаковку и документацию Home Assistant и не связан с LG Electronics.
+The server is provided by [anszom/rethink](https://github.com/anszom/rethink)
+under GPL-2.0. This Home Assistant packaging project is independent and is not
+affiliated with LG Electronics.
