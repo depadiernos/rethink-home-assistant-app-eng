@@ -30,4 +30,4 @@ CMD ["/usr/local/bin/run-rethink"]
 LABEL \
     org.opencontainers.image.title="Home Assistant App: LG ThinQ Local" \
     org.opencontainers.image.description="Local LG ThinQ control powered by Rethink" \
-    org.opencontainers.image.source="https://github.com/akinin/rethink-home-assistant-app"
+    org.opencontainers.image.source="https://github.com/depadiernos/rethink-home-assistant-app-eng"
