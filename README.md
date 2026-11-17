@@ -1,6 +1,5 @@
 # LG ThinQ Local for Home Assistant
 
-[Русский](README.md) · **English**
 
 Home Assistant OS app repository that runs
 [Rethink](https://github.com/anszom/rethink) for fully local control of
