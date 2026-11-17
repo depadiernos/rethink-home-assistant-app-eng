@@ -23,7 +23,7 @@ compatible LG ThinQ appliances.
 Add this URL as a custom repository in the Home Assistant app store:
 
 ```text
-https://github.com/akinin/rethink-home-assistant-app
+https://github.com/depadiernos/rethink-home-assistant-app-eng
 ```
 
 Install **LG ThinQ Local**, configure MQTT and add this permanent DNS record:
