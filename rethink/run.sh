@@ -63,7 +63,7 @@ const config = {
   log: ['status', 'HTTPS', 'MGMT'],
 };
 
-fs.writeFileSync(configPath, `${JSON.stringify(config, null, 2)}\n`, { mode: 0o600 });
+fs.writeFileSync(configPath, `${JSON.stringify(config, null, 2)}\n`, { mode: 0600 });
 NODE
 
 cd /app
