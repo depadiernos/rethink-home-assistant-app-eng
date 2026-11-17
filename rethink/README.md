@@ -1,82 +1,54 @@
-# LG ThinQ Local
+LG ThinQ Local
 
-Полностью локальный сервер для совместимых устройств LG ThinQ на базе
-[Rethink](https://github.com/anszom/rethink). Приложение запускается внутри
-Home Assistant OS, принимает подключения техники LG в локальной сети и
-публикует сущности через MQTT Discovery — облако LG для обычного управления не
-требуется.
+A fully local server for compatible LG ThinQ devices, built on Rethink. The application runs within Home Assistant OS, accepts connections from LG appliances over the local network, and publishes entities via MQTT Discovery—eliminating the need for the LG cloud for standard operation.
+Key features
 
-## Что даёт приложение
+Local control and status monitoring, even without an internet connection; 
+Automatic creation of Home Assistant entities via MQTT Discovery; 
+Secure management interface accessible through Home Assistant Ingress; 
+Support for Russian and English languages, with light and dark themes (no external CDNs); 
+Device discovery and summary, plus filtering and export options for monitoring logs; 
+Persistent storage for the Certificate Authority (CA), keys, and device states; 
+Support for multiple compatible air conditioners and other appliances via a single server; 
+Pinned Rethink image version for predictable updates.
 
-- локальное управление и получение состояния даже при отсутствии интернета;
-- автоматическое создание сущностей Home Assistant через MQTT Discovery;
-- защищённый интерфейс управления через Home Assistant Ingress;
-- русский и английский интерфейс, светлая и тёмная темы без внешних CDN;
-- поиск и сводка устройств, а также фильтр и экспорт журнала мониторинга;
-- постоянное хранение центра сертификации, ключей и состояний устройств;
-- один сервер для нескольких совместимых кондиционеров и другой техники;
-- закреплённую версию образа Rethink для предсказуемых обновлений.
+How it works
 
-## Как это работает
+LG Device ── HTTPS 443 / MQTT TLS 8883 ──> LG ThinQ Local
+│
+└── MQTT Discovery ──> Home Assistant
 
-```text
-Устройство LG ── HTTPS 443 / MQTT TLS 8883 ──> LG ThinQ Local
-                                                     │
-                                                     └── MQTT Discovery ──> Home Assistant
-```
+TCP ports 443 and 8883 must be accessible from the IoT network segment to the Home Assistant instance. The web interface is not exposed to the LAN; it can only be accessed by clicking the "Open Web Interface" button on the application page.
 
-Из IoT-сегмента к Home Assistant должны быть доступны TCP-порты `443` и
-`8883`. Веб-интерфейс не публикуется в LAN и открывается только кнопкой
-**Открыть веб-интерфейс** на странице приложения.
+Russian is enabled by default. Language (RU/EN) and theme toggles are located on the right side of the top panel; selections are saved locally for each browser.
+DNS and TTL
 
-Русский язык включён по умолчанию. Переключатели **RU/EN** и темы находятся в
-правой части верхней панели; выбор сохраняется отдельно в каждом браузере.
+Permanent local record:
 
-## DNS и TTL
+rethink.lan  A  <Home Assistant IP>  TTL 300
 
-Постоянная локальная запись:
+For the initial setup of a new ThinQ2 device, temporarily create:
 
-```text
-rethink.lan  A  <IP Home Assistant>  TTL 300
-```
+common.lgthinq.com  A  <Home Assistant IP>  TTL 300
 
-Для первичного подключения нового устройства ThinQ2 временно создайте:
+A TTL of 300 (300 seconds, or five minutes) is short enough to allow for quick address changes or rollbacks, while avoiding excessive DNS load. After modifying a record, wait up to five minutes or force the device to reconnect to Wi-Fi. You may delete the `common.lgthinq.com` record once registration is successful; however, keep the `rethink.lan` record in place permanently.
 
-```text
-common.lgthinq.com  A  <IP Home Assistant>  TTL 300
-```
+To register via a phone or tablet, use the official "Rethink Setup for Android" v1.1.1. The verified APK build, its SHA-256 hash, and instructions can be found in the application repository.
+Before launching:
 
-`TTL 300` — это 300 секунд, то есть пять минут. Такой срок достаточно короткий
-для быстрой смены адреса или отката, но не создаёт постоянную DNS-нагрузку.
-После изменения записи подождите до пяти минут либо принудительно переподключите
-устройство к Wi-Fi. Запись `common.lgthinq.com` удалите после успешной
-регистрации; `rethink.lan` оставьте постоянно.
+Create a dedicated MQTT user. 
+Specify the broker address, port, username, and password in the settings. 
+Create a persistent DNS record for `rethink.lan`. 
+Ensure that TCP ports 443 and 8883 are not in use by other applications. 
+Launch the application and open the log; any MQTT errors or port conflicts will be immediately visible.
 
-Для регистрации с телефона или планшета используйте официальный
-[Rethink Setup for Android v1.1.1](https://github.com/akinin/rethink-home-assistant-app/blob/main/apk/README.md).
-Проверенная APK-сборка, SHA-256 и инструкция хранятся вместе с репозиторием
-приложения.
+Once a device is connected, be sure to create a backup of your Home Assistant instance. Losing `/data/ca.key`, `/data/ca.cert`, or `/data/state` will require you to re-register your appliances.
 
-## Перед запуском
+Detailed information regarding installation, connecting additional devices, DNS verification, updates, and rollbacks can be found in the application documentation.
+Compatibility and Limitations:
 
-1. Создайте отдельного пользователя MQTT.
-2. Укажите адрес брокера, порт, имя пользователя и пароль в параметрах.
-3. Создайте постоянную DNS-запись `rethink.lan`.
-4. Проверьте, что TCP `443` и `8883` не заняты другими приложениями.
-5. Запустите приложение и откройте журнал: ошибки MQTT или занятые порты будут
-   видны сразу.
-
-После подключения устройства обязательно создайте резервную копию Home
-Assistant. Потеря `/data/ca.key`, `/data/ca.cert` или `/data/state` потребует
-повторной регистрации техники.
-
-Подробная установка, подключение дополнительных устройств, проверка DNS,
-обновление и откат описаны в [документации приложения](DOCS.md).
-
-## Совместимость и ограничения
-
-- текущая сборка: `amd64`;
-- основной сценарий: устройства ThinQ2;
-- набор доступных функций зависит от профиля конкретной модели;
-- это независимый проект, не связанный с LG Electronics;
-- экспериментальные действия и отправка сырых пакетов могут повредить технику.
+Current build: amd64. 
+Primary use case: ThinQ2-enabled devices. 
+The set of available features depends on the specific model profile. 
+This is an independent project and is not affiliated with LG Electronics. 
+Experimental operations or sending raw packets may potentially damage your appliances.
