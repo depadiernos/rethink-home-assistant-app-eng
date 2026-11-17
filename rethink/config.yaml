@@ -1,7 +1,7 @@
 name: LG ThinQ Local
 version: "0.2.4"
 slug: lg_thinq_local
-description: ПFully local control of LG ThinQ devices via Rethink
+description: Fully local control of LG ThinQ devices via Rethink
 url: https://github.com/depadiernos/rethink-home-assistant-app-eng
 arch:
   - amd64
