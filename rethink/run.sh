@@ -43,10 +43,15 @@ const config = {
     bind: 11884,
     advertise: 1884,
   },
+  thinq1_http_port: {
+    address: '127.0.0.1',
+    bind: 46043,
+    advertise: 46043,
+  },
   thinq1_https_port: {
     address: '127.0.0.1',
-    bind: 46030,
-    advertise: 46030,
+    bind: 46044,
+    advertise: 46044,
   },
   thinq1_port: {
     address: '127.0.0.1',
@@ -63,7 +68,7 @@ const config = {
   log: ['status', 'HTTPS', 'MGMT'],
 };
 
-fs.writeFileSync(configPath, `${JSON.stringify(config, null, 2)}\n`, { mode: 0600 });
+fs.writeFileSync(configPath, `${JSON.stringify(config, null, 2)}\n`, { mode: 0o600 });
 NODE
 
 cd /app
